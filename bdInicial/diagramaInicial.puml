@@ -1,0 +1,81 @@
+@startuml
+skinparam linetype ortho
+
+entity "Fabricantes" {
+    * nombre_fabricante : VARCHAR[100] <<PK>>
+    --
+    pais : VARCHAR[100]
+}
+
+entity "Estancos" {
+    * nif_estanco : VARCHAR[20] <<PK>>
+    --
+    num_expendeduria : INT
+    cp_estanco : VARCHAR[15]
+    nombre_estanco : VARCHAR[100]
+    direccion_estanco : VARCHAR[255]
+    localidad_estanco : VARCHAR[100]
+    provincia_estanco : VARCHAR[100]
+}
+
+entity "Cigarrillos" {
+    * marca : VARCHAR[100] <<PK>>
+    * filtro : BOOLEAN <<PK>>
+    * color : VARCHAR[50] <<PK>>
+    * clase : VARCHAR[50] <<PK>>
+    * mentol : BOOLEAN <<PK>>
+    --
+    nicotina : DECIMAL[5,2]
+    alquitran : DECIMAL[5,2]
+    nombre_fabricante : VARCHAR[100] <<FK>>
+    precio_venta : DECIMAL[10,2]
+    precio_costo : DECIMAL[10,2]
+    carton : INT
+    embalaje : INT
+}
+
+entity "Almacenes" {
+    * nif_estanco : VARCHAR[20] <<PK, FK>>
+    * marca : VARCHAR[100] <<PK, FK>>
+    * filtro : BOOLEAN <<PK, FK>>
+    * color : VARCHAR[50] <<PK, FK>>
+    * clase : VARCHAR[50] <<PK, FK>>
+    * mentol : BOOLEAN <<PK, FK>>
+    --
+    unidades : INT
+}
+
+entity "Compras" {
+    * nif_estanco : VARCHAR[20] <<PK, FK>>
+    * marca : VARCHAR[100] <<PK, FK>>
+    * filtro : BOOLEAN <<PK, FK>>
+    * color : VARCHAR[50] <<PK, FK>>
+    * clase : VARCHAR[50] <<PK, FK>>
+    * mentol : BOOLEAN <<PK, FK>>
+    * fecha_compra : DATE <<PK>>
+    --
+    c_comprada : INT
+    precio_compra : DECIMAL[10,2]
+}
+
+entity "Ventas" {
+    * nif_estanco : VARCHAR[20] <<PK, FK>>
+    * marca : VARCHAR[100] <<PK, FK>>
+    * filtro : BOOLEAN <<PK, FK>>
+    * color : VARCHAR[50] <<PK, FK>>
+    * clase : VARCHAR[50] <<PK, FK>>
+    * mentol : BOOLEAN <<PK, FK>>
+    * fecha_venta : DATE <<PK>>
+    --
+    c_vendida : INT
+    precio_venta : DECIMAL[10,2]
+}
+
+Fabricantes "1" -- "0..*" Cigarrillos : fabrica
+Estancos "1" -- "0..*" Almacenes : posee
+Cigarrillos "1" -- "0..*" Almacenes : almacenado_en
+Estancos "1" -- "0..*" Compras : realiza
+Cigarrillos "1" -- "0..*" Compras : incluye
+Estancos "1" -- "0..*" Ventas : registra
+Cigarrillos "1" -- "0..*" Ventas : vende
+@enduml
