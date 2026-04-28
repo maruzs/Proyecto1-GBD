@@ -7,10 +7,12 @@ WHERE v.marca = c.marca AND v.filtro = c.filtro AND v.color = c.color AND v.clas
 
 --EXPLAIN ANALYZE: EXECUTION TIME=0.089ms -- [PROBAR MARIANO]
 --CONSULTA 2: COMPRAS INDICANDO A LOS FABRICANTES
+EXPLAIN ANALYZE
 SELECT co.nif_estanco, co.fecha_compra, co.c_comprada, c.marca, f.nombre_fabricante, f.pais 
 FROM Compras co, Cigarrillos c, Fabricantes f 
-WHERE co.marca = c.marca AND co.filtro = c.filtro AND co.color = c.color AND co.clase = c.clase AND co.mentol = c.mentol AND c.nombre_fabricante = f.nombre_fabricante AND nombre_fabricante = 'BAT Chile'; 
-
+WHERE co.marca = c.marca AND co.filtro = c.filtro AND co.color = c.color AND co.clase = c.clase AND co.mentol = c.mentol 
+AND c.nombre_fabricante = f.nombre_fabricante 
+AND f.nombre_fabricante = 'Fabricante_1_1'; -- Cambiado para que coincida con tus datos masivos
 --EXPLAIN ANALYZE: EXECUTION TIME=0.104ms -- [PROBAR MARIANO]
 
 -- PUNTO 3: METODOS DE OPTIMIZACION
